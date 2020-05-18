@@ -1,25 +1,34 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import React, { ReactElement } from "react";
+import { createGlobalStyle, DefaultTheme, ThemeProvider } from "styled-components";
 
-function App() {
+interface Props {
+	theme: DefaultTheme;
+}
+
+const GlobalStyles = createGlobalStyle`
+	* {
+		font-family: inherit;
+
+		&,
+		&::before,
+		&::after {
+			box-sizing: border-box;
+		}
+	}
+
+	body {
+		
+		font-family: ${(props) => props.theme.fontFamily.name}
+	}
+`;
+
+function App({ theme }: Props): ReactElement<Props> {
 	return (
-		<div className="App">
-			<header className="App-header">
-				<img src={logo} className="App-logo" alt="logo" />
-				<p>
-					Edit <code>src/App.tsx</code> and save to reload.
-				</p>
-				<a
-					className="App-link"
-					href="https://reactjs.org"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					Learn React
-				</a>
-			</header>
-		</div>
+		<ThemeProvider theme={theme}>
+			<link href={theme.fontFamily.href} rel="stylesheet" type="text/css" />
+			<GlobalStyles />
+			<h1>hello darkness my old friend!</h1>
+		</ThemeProvider>
 	);
 }
 
